@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 export default function useFetch(url) {
   const [data, setData] = useState([]);
   const [Isloding, setIsloding] = useState(false);
@@ -14,17 +15,11 @@ export default function useFetch(url) {
   useEffect(() => {
     setIsloding(true);
     setErrMessage(null);
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          throw Error(
-            res.statusText ? res.statusText : "Network response was not ok"
-          );
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setData(data);
+
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data);
         setIsloding(false);
       })
       .catch((err) => {
