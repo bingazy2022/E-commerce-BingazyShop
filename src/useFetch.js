@@ -19,7 +19,7 @@ export default function useFetch(url) {
     axios
       .get(url)
       .then((response) => {
-        setData(response.data);
+        setData(response.data.products || response.data);
         setIsloding(false);
       })
       .catch((err) => {
