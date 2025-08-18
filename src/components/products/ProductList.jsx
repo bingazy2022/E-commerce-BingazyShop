@@ -7,7 +7,7 @@ export default function ProductList() {
     data: products,
     Isloding,
     errMessage,
-  } = useFetch(`${process.env.REACT_APP_API_URL}/products`);
+  } = useFetch(`${process.env.REACT_APP_API_URL}`);
 
   // useEffect(() => {
   //   axios

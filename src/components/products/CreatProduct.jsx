@@ -32,7 +32,7 @@ export default function CreateProduct() {
     };
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/products`, prod, {
+      .post(`${process.env.REACT_APP_API_URL}`, prod, {
         headers: { "Content-Type": "application/json" },
       })
       .then(() => {

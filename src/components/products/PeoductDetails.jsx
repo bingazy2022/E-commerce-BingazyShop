@@ -34,7 +34,7 @@ export default function ProductDetails() {
     data: product,
     Isloding,
     errMessage,
-  } = useFetch(`${process.env.REACT_APP_API_URL}/products/${id}`);
+  } = useFetch(`${process.env.REACT_APP_API_URL}/${id}`);
 
   const productQuantity =
     cart.find((item) => item.id === product?.id)?.quantity || 0;
@@ -60,7 +60,7 @@ export default function ProductDetails() {
     e.preventDefault();
 
     axios
-      .put(`http://localhost:3001/products/${id}`, editForm, {
+      .put(`${process.env.REACT_APP_API_URL}/${id}`, editForm, {
         headers: { "Content-Type": "application/json" },
       })
       .then(() => {
@@ -75,7 +75,7 @@ export default function ProductDetails() {
 
   function handleDelete() {
     axios
-      .delete(`http://localhost:3001/products/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/${id}`)
       .then(() => {
         setShowConfirm(false);
         toast.error("🗑️ تم حذف المنتج");
