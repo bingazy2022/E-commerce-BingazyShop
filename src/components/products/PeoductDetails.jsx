@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaEdit, FaTrash, FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import axios from "axios";
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 
@@ -34,7 +34,7 @@ export default function ProductDetails() {
     data: product,
     Isloding,
     errMessage,
-  } = useFetch(`http://localhost:3001/products/${id}`);
+  } = useFetch(`${process.env.REACT_APP_API_URL}/${id}`);
 
   const productQuantity =
     cart.find((item) => item.id === product?.id)?.quantity || 0;
@@ -58,26 +58,27 @@ export default function ProductDetails() {
 
   function handleUpdate(e) {
     e.preventDefault();
-    fetch(`http://localhost:3001/products/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editForm),
-    })
+
+    axios
+      .put(`${process.env.REACT_APP_API_URL}/${id}`, editForm, {
+        headers: { "Content-Type": "application/json" },
+      })
       .then(() => {
         toast.success("✅ تم تحديث المنتج بنجاح");
         setShowEdit(false);
+        navigates("/"); // الانتقال للصفحة الرئيسية بعد التحديث
       })
-      .then(() => navigates("/"))
-      .catch(() => toast.error("❌ حدث خطأ أثناء التحديث"));
+      .catch(() => {
+        toast.error("❌ حدث خطأ أثناء التحديث");
+      });
   }
 
   function handleDelete() {
-    fetch(`http://localhost:3001/products/${id}`, {
-      method: "DELETE",
-    })
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/${id}`)
       .then(() => {
         setShowConfirm(false);
-        toast.error(" 🗑️تم حذف المنتج");
+        toast.error("🗑️ تم حذف المنتج");
         navigates("/");
       })
       .catch((err) => {
